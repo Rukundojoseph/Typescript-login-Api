@@ -4,7 +4,7 @@ import handleError from "../middleware/errorhandle"
 import jwt from "jsonwebtoken"
 import { config } from "dotenv"
 import bcrypt from "bcrypt"
-import { AnyCnameRecord } from "dns"
+
 config()
 
 
@@ -104,9 +104,11 @@ class User{
             email: req.body.email,
             password: req.body.password
         }        
+        //get login credential from user 
         try{
             const user: any = await USER.findOne({where : {email : credentials.email}})
             if(user){
+                // this is to verify the password of the user 
                 if(bcrypt.compareSync(credentials.password,user.password)){
                     res.status(200).json({
                         message: "logged in succesfuly",

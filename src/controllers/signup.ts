@@ -1,7 +1,20 @@
 import USER from "../models/user"
 import { Request ,Response } from "express"
 import handleError from "../middleware/errorhandle"
+import jwt from "jsonwebtoken"
+import { config } from "dotenv"
+import bcrypt from "bcrypt"
+import { AnyCnameRecord } from "dns"
+config()
 
+
+function createjwt(userid: string , email: string ){
+    const maxAge = 3 * 24 * 60 * 60;
+    const token = jwt.sign({userid,email},`${process.env.SECRET_KEY}`, 
+        {expiresIn: maxAge})
+        return token
+
+}
 
 class User{
     static async createUser(req: Request, res: Response){
@@ -13,7 +26,8 @@ class User{
         res.status(200).json({
             message: "succesfuly created an account",
             data: {
-               userID:  newUser.id
+               userID:  newUser.id,
+               token: createjwt(newUser.id, newUser.email)
             }
                 
  
@@ -82,6 +96,43 @@ class User{
                 "message" : error.message
             })
         }
+    }
+    //this is the login router to login 
+    static async loginuser(req: Request ,res: Response){
+        // add the login functionality here         
+        const credentials = {
+            email: req.body.email,
+            password: req.body.password
+        }        
+        try{
+            const user: any = await USER.findOne({where : {email : credentials.email}})
+            if(user){
+                if(bcrypt.compareSync(credentials.password,user.password)){
+                    res.status(200).json({
+                        message: "logged in succesfuly",
+                        token: createjwt(user.id,user.email)
+                    })
+
+                }
+                else{
+                    res.status(400).json({
+                        statusCode: 400,
+                        message : "incorrect password"
+                    })
+                }
+            }
+            else{
+                res.status(400).json({
+                   statusCode: 400,
+                   message: "email is not registered" 
+                })
+            }
+
+            
+        } catch (error) {
+            
+        }
+
     }
 }
 export default User

@@ -54,6 +54,12 @@ const  User = sequelize.define('User', {
         type: DataTypes.STRING,
         allowNull: false,
 
+    },
+    street : {
+      type: DataTypes.STRING,
+      allowNull: false
+      
+
     }
     
   }, {

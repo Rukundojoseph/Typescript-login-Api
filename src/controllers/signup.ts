@@ -42,7 +42,6 @@ class User{
         })
 
     }
-
     }
     static async getAlluser(req: Request ,res: Response){
         try {
@@ -61,7 +60,14 @@ class User{
     }
     static async editlocation(req: Request ,res: Response){
         const userid: string = req.params.id;
-        const data: object ={
+        type billing ={
+            'district': String,
+            'province' : string,
+            'cell' : string,
+            'sector' : string,
+        }
+
+        const data: billing ={
             'district': req.body.district,
             'province' : req.body.province,
             'cell' : req.body.cell,

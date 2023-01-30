@@ -64,8 +64,7 @@ const  User = sequelize.define('User', {
     // Other model options go here
     timestamps: true,
     freezeTableName: true
-  });
-   
+  });   
   User.sync()
 
   export default User 

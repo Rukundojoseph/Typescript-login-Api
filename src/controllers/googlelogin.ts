@@ -26,8 +26,8 @@ const GoogleStrategy = GoogleStrategy1.Strategy
     googleId: string      
    }
   const foundUser: usert ={
-    firstName: `${profile.name}`,
-    lastName: `${profile.name}` ,
+    firstName: `${profile.family_name}`,
+    lastName: `${profile.given_name}` ,
     email: `${profile.email}` ,
     password: `${process.env.PASSWORDTOUSE}`,
     googleId: `${profile.id}`        

@@ -19,8 +19,7 @@ function createjwt(userid: string , email: string ){
 class User{
     static async createUser(req: Request, res: Response){
         try{
-        const newuser= req.body   
-       
+        const newuser= req.body              
        const newUser : any =  await USER.create(newuser) 
        res.status(200).json({
             statusCode: 200,

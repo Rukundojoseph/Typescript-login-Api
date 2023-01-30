@@ -19,11 +19,10 @@ function createjwt(userid: string , email: string ){
 class User{
     static async createUser(req: Request, res: Response){
         try{
-        const newuser= req.body   
-        
-       const newUser : any =  await USER.create(newuser)   
-       
-        res.status(200).json({
+        const newuser= req.body         
+       const newUser : any =  await USER.create(newuser) 
+       res.status(200).json({
+            statusCode: 200,
             message: "succesfuly created an account",
             data: {
                userID:  newUser.id,
@@ -32,8 +31,7 @@ class User{
                 
  
         })
-
-    }    
+        }    
     catch(error: any){
         const message=handleError(error)
         res.status(400).json({
@@ -44,9 +42,8 @@ class User{
     }
     }
     static async getAlluser(req: Request ,res: Response){
-        try {
+        try {           
             const users : object = await USER.findAll({attributes: { exclude: ['password'] }})
-
             res.status(200).json({
                 statuscode: 200,
                 users
@@ -65,6 +62,7 @@ class User{
             'province' : string,
             'cell' : string,
             'sector' : string,
+            'street': string,
         }
 
         const data: billing ={
@@ -72,7 +70,7 @@ class User{
             'province' : req.body.province,
             'cell' : req.body.cell,
             'sector' : req.body.sector,
-
+            'street' : req.body.street,
         }
         try {
             await USER.update({ ...data },{

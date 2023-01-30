@@ -19,8 +19,7 @@ const  User = sequelize.define('User', {
     },
     lastName: {
       type: DataTypes.STRING,
-      allowNull: false,
-      
+      allowNull: false,      
     },
     email: {
         type: DataTypes.STRING,
@@ -36,7 +35,7 @@ const  User = sequelize.define('User', {
             this.setDataValue('password', bcrypt.hashSync(value , bcrypt.genSaltSync()));
           }      
     },
-    googleID: {
+    googleId: {
       type: DataTypes.STRING,
       allowNull: true,
       unique: true
@@ -48,24 +47,19 @@ const  User = sequelize.define('User', {
     sector: {
         type: DataTypes.STRING,
         allowNull: true,
-
     } ,
      district : {
         type: DataTypes.STRING,
-        allowNull: false,
+        allowNull: true,
     },
       province: {
         type: DataTypes.STRING,
-        allowNull: false,
-
+        allowNull: true,
     },
     street : {
       type: DataTypes.STRING,
-      allowNull: false
-      
-
-    }
-    
+      allowNull: true     
+    }    
   }, {
     // Other model options go here
     timestamps: true,

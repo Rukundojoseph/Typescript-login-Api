@@ -1,10 +1,10 @@
 import passport from "passport"
 import USER from "../models/user"
-import GoogleStrategy1 from "passport-google-oauth2"
-import  {NextFunction, Request,Response,Router} from "express";
+import strategyGoogle from "passport-google-oauth2"
+import  {Request} from "express";
 import { VerifyCallback } from "jsonwebtoken";
 
-const GoogleStrategy = GoogleStrategy1.Strategy
+const GoogleStrategy = strategyGoogle.Strategy
  passport.use(
     new GoogleStrategy({
     clientID:     `${process.env.GOOGLE_CLIENT_ID}`,
@@ -14,10 +14,11 @@ const GoogleStrategy = GoogleStrategy1.Strategy
   },
   async function(request:Request, accessToken: string, refreshToken: string, profile: any, done: VerifyCallback) {
     try {
-        console.log("this is the profile" , profile)
+        
+        //check if use already exists
    const user =  await USER.findOne({where :{ googleId: profile.id }});
    if(!user){
-   // console.log(profile)
+
    type usert = {
     firstName: string,
     lastName: string ,
@@ -32,10 +33,13 @@ const GoogleStrategy = GoogleStrategy1.Strategy
     password: `${process.env.PASSWORDTOUSE}`,
     googleId: `${profile.id}`        
 }
+   // creating user and aadding the user to the data base
 const createdUser = await USER.create(foundUser)
 return  done(null ,createdUser)
    }        
    else{
+
+    // return user if user already exists
     return done(null , user) 
    }
     } catch (error: any) {
@@ -45,6 +49,7 @@ return  done(null ,createdUser)
   }
 ));
 
+//these are you use for making sessions
 passport.serializeUser(function(user: any , done){
     done(null, user);
 });

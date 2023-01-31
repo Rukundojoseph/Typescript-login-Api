@@ -115,6 +115,7 @@ class User{
                 // this is to verify the password of the user 
                 if(bcrypt.compareSync(credentials.password,user.password)){
                     res.status(200).json({
+                        statusCode: 200,
                         message: "logged in succesfuly",
                         token: createjwt(user.id,user.email)
                     })

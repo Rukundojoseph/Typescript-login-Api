@@ -57,7 +57,7 @@ class User{
     static async editlocation(req: Request ,res: Response){
        // const userid: string = req.params.id;
          const user :any = req.user
-       console.log(user)
+       
         const  userid: string = user.userid
         type billing ={
             'district': String,
@@ -117,6 +117,7 @@ class User{
                 // this is to verify the password of the user 
                 if(bcrypt.compareSync(credentials.password,user.password)){
                     res.status(200).json({
+                        statusCode: 200,
                         message: "logged in succesfuly",
                         token: createjwt(user.id,user.email)
                     })

@@ -35,7 +35,7 @@ router.get('/loggedin', async (req: Request,res: Response)=>{
         const userid = User.id
         res.status(200).json(
             {
-                status: 200,
+                statusCode: 200,
                 message:  "logged in succesfuly",
                 token: createjwt(userid,email)
             }

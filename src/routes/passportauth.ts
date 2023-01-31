@@ -4,6 +4,12 @@ import jwt from 'jsonwebtoken'
 import  "../controllers/googlelogin"
 
  const router = express.Router()
+ function createjwt(userid: string , email: string ){
+    const maxAge = 3 * 24 * 60 * 60;
+    const token = jwt.sign({userid,email},`${process.env.SECRET_KEY}`, 
+        {expiresIn: maxAge})
+        return token
+}
 
 router.get('/auth/google',
   passport.authenticate('google', { scope:
@@ -17,8 +23,7 @@ router.get( '/auth/google/callback',
 }));
 
 router.get('/loggedin', async (req: Request,res: Response)=>{
-    const User: any = req.user 
-    console.log(User)
+    const User: any = req.user    
     if(!User){
         res.status(400).json({
             status: 400,
@@ -27,14 +32,12 @@ router.get('/loggedin', async (req: Request,res: Response)=>{
     }
     else{
         const email = User.email
-        const userId = User.id
+        const userid = User.id
         res.status(200).json(
             {
                 status: 200,
                 message:  "logged in succesfuly",
-                token: `${jwt.sign({email,userId}, process.env.SECRET_KEY as string)}`
-
-
+                token: createjwt(userid,email)
             }
         )
     }

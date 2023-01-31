@@ -7,7 +7,7 @@ const router = Router()
 
 router.post('/signup', userController.createUser)
 router.get('/users', userController.getAlluser)
-router.patch('/users/:id', CheckUser.user ,userController.editlocation)
+router.patch('/users/editbill', CheckUser.user ,userController.editlocation)
 router.post('/login', userController.loginuser)
 
 export default router

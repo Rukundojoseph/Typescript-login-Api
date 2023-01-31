@@ -10,7 +10,8 @@ class CheckUser{
             if(loggedinuser.startsWith('Bearer')){
                 const token = loggedinuser.split(" ")[1]
                 const user = jwt.verify(token,`${process.env.SECRET_KEY}`)
-                if(user){                    
+                if(user){           
+                    req.user = user         
                     next()
                 }
                 else{

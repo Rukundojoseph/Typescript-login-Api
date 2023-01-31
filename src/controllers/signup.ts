@@ -13,7 +13,6 @@ function createjwt(userid: string , email: string ){
     const token = jwt.sign({userid,email},`${process.env.SECRET_KEY}`, 
         {expiresIn: maxAge})
         return token
-
 }
 
 class User{
@@ -56,7 +55,10 @@ class User{
         }
     }
     static async editlocation(req: Request ,res: Response){
-        const userid: string = req.params.id;
+       // const userid: string = req.params.id;
+         const user :any = req.user
+       console.log(user)
+        const  userid: string = user.userid
         type billing ={
             'district': String,
             'province' : string,
@@ -64,7 +66,6 @@ class User{
             'sector' : string,
             'street': string,
         }
-
         const data: billing ={
             'district': req.body.district,
             'province' : req.body.province,
@@ -88,7 +89,8 @@ class User{
                         province: updatedUser.province,
                         district: updatedUser.district,
                         sector: updatedUser.sector,
-                        cell: updatedUser.cell,                 
+                        cell: updatedUser.cell,      
+                        street : updatedUser.street           
                     } 
                 }
               })
